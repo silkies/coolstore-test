@@ -26,14 +26,16 @@ public class CoolStorePage {
         this.action = new Actions(driver);
     }
 	
-	public void goTo() {
+	public void goToHomePage() throws InterruptedException {
         this.driver.get("http://web-ui-coolstore-prod-demo.apps.s-und-n.de");
         System.out.println("Browser launched and navigated to CoolStore page");
-    }
+        Thread.sleep(3000);
+
+}
 	
 	public List<String> getListOfItems() {
-        
-        return driver.findElements(By.cssSelector(".card-pf.card-pf-accented"))
+		
+		return driver.findElements(By.xpath("//div[@ng-repeat='item in products']"))
                       .stream()
                       .map(this::getItemAndPrice)
                       .collect(Collectors.toList());
@@ -47,21 +49,21 @@ public class CoolStorePage {
         String title = element.findElement(By.cssSelector(".card-pf-title")).getText().trim();
         //item price
         String price = element.findElement(By.cssSelector("html body div.ng-scope div.container.container-cards-pf.ng-scope div.row div.col-md-4.item.ng-scope.ng-isolate-scope div.card-pf.card-pf-accented div.card-pf-body div div.row.ng-scope div.col-xs-6 h1.ng-binding")).getText().trim();
-  
+
         return title + " - " + price;
     }
 	
 	private String getPrice(WebElement element) {
         String price = element.findElement(By.cssSelector("html body div.ng-scope div.container.container-cards-pf.ng-scope div.row div.col-md-4.item.ng-scope.ng-isolate-scope div.card-pf.card-pf-accented div.card-pf-body div div.row.ng-scope div.col-xs-6 h1.ng-binding")).getText().trim();
-		NumberFormat format = NumberFormat.getCurrencyInstance();
+		/*NumberFormat format = NumberFormat.getCurrencyInstance();
 		Number number = 0;
+		System.out.println("Not converted price" + price);
 		try {
 			number = format.parse(price);
 		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-        return number.toString();
+			System.out.println("couldnt convert dollar sign!!!");;
+		}*/
+		return price.substring(1);
 	}
 	
 	/*public void addAllItemsToCart() {
@@ -74,7 +76,8 @@ public class CoolStorePage {
 	
 	public Double sumOfAllPrices() {
 		double sum = 0;
-		for (WebElement el : driver.findElements(By.cssSelector(".card-pf.card-pf-accented"))) {
+				
+		for (WebElement el : driver.findElements(By.xpath("//div[@ng-repeat='item in products']"))) {
 			sum += Double.parseDouble(getPrice(el));
 		}
 		Double truncatedDouble = BigDecimal.valueOf(sum)
@@ -83,20 +86,32 @@ public class CoolStorePage {
 		return truncatedDouble;
 	}
 	
-	public void clickAddToCart() throws InterruptedException {
+	public void addAllItemsToCart() {
 		List<WebElement> buttons = driver.findElements(By.xpath("//button[contains(text(),'Add To Cart')]"));
 
 		for(int i=0;i<buttons.size();i++){
 		    buttons.get(i).click();
-		    Thread.sleep(5000L);
-			System.out.println("CLICKED");
-
+			System.out.println("Add to cart CLICKED");
 		}
 		//System.out.println(driver.findElements(By.xpath("//button[contains(text(),'Add To Cart')]")));
 		/*for( WebElement e :driver.findElements(By.xpath("//button[contains(text(),'Add To Cart')]"))) {
 			e.click();
 			System.out.println("CLICKED");
 		}*/
+		
+	}
+	
+	public void goToCart() throws InterruptedException {
+		driver.findElement(By.xpath("//a[@ng-href='#/cart']")).click();
+		Thread.sleep(3000);
+		
+	}
+	
+	public Double getTotalCartAmount() {
+		double amount = -1;
+		String cartTotal = driver.findElement(By.xpath("//h3[contains(text(), 'Cart Total')]")).getText().trim();
+		amount = Double.parseDouble(cartTotal.substring(cartTotal.lastIndexOf("$") + 1));
+		return amount;
 		
 	}
 
