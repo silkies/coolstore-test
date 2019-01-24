@@ -27,7 +27,7 @@ public class CoolStorePage {
     }
 	
 	public void goTo() {
-        this.driver.get("file:///home/sasha/coolstore/Red Hat Cool Store MSA.html");
+        this.driver.get("http://web-ui-coolstore-prod-demo.apps.s-und-n.de");
         System.out.println("Browser launched and navigated to CoolStore page");
     }
 	
