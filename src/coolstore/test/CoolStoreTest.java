@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
 import org.testng.annotations.Test;
 
 import coolstore.page.CoolStorePage;
@@ -16,8 +16,9 @@ public class CoolStoreTest extends BaseTest{
 	private CoolStorePage store;
 	
 	@BeforeTest
-    public void setUp() throws MalformedURLException {
-        super.setUp();
+	@Parameters({"browser"})
+    public void setUp(String browser) throws MalformedURLException {
+        super.setUp(browser);
         store = new CoolStorePage(driver);
     }
 
