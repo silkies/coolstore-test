@@ -20,6 +20,8 @@ public class CoolStoreTest extends BaseTest{
     public void setUp(String browser) throws MalformedURLException {
         super.setUp(browser);
         store = new CoolStorePage(driver);
+	System.out.println("Tests on " + browser);
+
     }
 
     @Test
