@@ -13,19 +13,22 @@ public class BaseTest {
 	 protected WebDriver driver;
 	    
 	    @BeforeTest
-	    public void setUp() throws MalformedURLException {
+	    public void setUp(String browser) throws MalformedURLException {
 	        
 	    	String host = System.getProperty("seleniumHubHost");
 	        String port = System.getProperty("port");
 	        
-	        String browser = System.getProperty("browser");
-	        DesiredCapabilities dc = DesiredCapabilities.chrome();
 	        if(browser.equals("firefox")) {
-	        	dc = DesiredCapabilities.firefox();
+	        	DesiredCapabilities dc = DesiredCapabilities.firefox();
+		        driver = new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), dc);
+
 	        }
 	        
-	        driver = new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), dc);
-	    	
+	        if(browser.equals("chrome")) {
+	        	DesiredCapabilities dc = DesiredCapabilities.chrome();
+		        driver = new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), dc);
+
+	        }	    	
 	    }
 	    
 	    @AfterTest
