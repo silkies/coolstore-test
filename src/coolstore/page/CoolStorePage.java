@@ -29,7 +29,7 @@ public class CoolStorePage {
 	public void goToHomePage() throws InterruptedException {
         this.driver.get("http://web-ui-coolstore-prod-demo.apps.s-und-n.de");
         System.out.println("Browser launched and navigated to CoolStore page");
-        Thread.sleep(3000);
+        Thread.sleep(10000);
 
 }
 	
@@ -86,13 +86,15 @@ public class CoolStorePage {
 		return truncatedDouble;
 	}
 	
-	public void addAllItemsToCart() {
+	public void addAllItemsToCart() throws InterruptedException {
 		List<WebElement> buttons = driver.findElements(By.xpath("//button[contains(text(),'Add To Cart')]"));
 
 		for(int i=0;i<buttons.size();i++){
 		    buttons.get(i).click();
 			System.out.println("Add to cart CLICKED");
+			Thread.sleep(3000);
 		}
+		
 		//System.out.println(driver.findElements(By.xpath("//button[contains(text(),'Add To Cart')]")));
 		/*for( WebElement e :driver.findElements(By.xpath("//button[contains(text(),'Add To Cart')]"))) {
 			e.click();
@@ -103,7 +105,7 @@ public class CoolStorePage {
 	
 	public void goToCart() throws InterruptedException {
 		driver.findElement(By.xpath("//a[@ng-href='#/cart']")).click();
-		Thread.sleep(3000);
+		Thread.sleep(10000);
 		
 	}
 	
