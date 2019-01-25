@@ -30,7 +30,7 @@ public class BaseTest {
 		        driver = new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), dc);
 
 	        }
-		this.driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+	        this.driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 	    }
 	    
 	    @AfterTest
