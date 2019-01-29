@@ -37,9 +37,9 @@ public class CoolStoreTest extends BaseTest{
     }
     
     @Test
-    public void sumOfAllPrices() throws InterruptedException {
+    public void sumOfPrices() throws InterruptedException {
     	store.goToHomePage();
-    	System.out.println("Trying to calculate sum of all prices...");
+    	System.out.println("Trying to calculate sum of items prices...");
     	double allPrices = store.sumOfAllPrices();
     	System.out.println("Sum of prices: " + allPrices);
         System.out.println("----------------------------");
