@@ -28,22 +28,22 @@ public class CoolStorePage {
         this.action = new Actions(driver);
     }
 	
-	public void goToHomePage() throws InterruptedException {
+	public void goToHomePage() {
         this.driver.get("http://web-ui-coolstore-prod-demo.apps.s-und-n.de");
         System.out.println("Browser launched and navigated to CoolStore page");
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
 
 }
 	
-	public List<String> getListOfItems() throws InterruptedException {
+	public List<String> getListOfItems() {
 		By xpath = By.xpath("//div[@ng-repeat='item in products']");
 		
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
-		List<WebElement> listOfEelements = fetchComponents.get();
+		List<WebElement> listOfElements = fetchComponents.get();
 		
 		
-		return listOfEelements
+		return listOfElements
                       .stream()
                       .map(this::getItemAndPrice)
                       .collect(Collectors.toList());
@@ -68,37 +68,47 @@ public class CoolStorePage {
 	}
 	
 	
-	public Double sumOfAllPrices() throws InterruptedException {
+	public Double sumOfAllPrices() {
 		double sum = 0;
+		By xpath = By.xpath("//div[@ng-repeat='item in products']");
+		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
+		List<WebElement> listOfElements = fetchComponents.get();
+		
 				
-		for (WebElement el : driver.findElements(By.xpath("//div[@ng-repeat='item in products']"))) {
+		for (WebElement el : listOfElements) {
 			sum += Double.parseDouble(getPrice(el));
 		}
-		Thread.sleep(3000);
+
 		Double truncatedDouble = BigDecimal.valueOf(sum)
 			    .setScale(2, RoundingMode.HALF_UP)
 			    .doubleValue();
 		return truncatedDouble;
 	}
 	
-	public void addAllItemsToCart() throws InterruptedException {
-		Thread.sleep(3000);
-		List<WebElement> buttons = driver.findElements(By.xpath("//button[contains(text(),'Add To Cart')]"));
+	public void addAllItemsToCart() {
+		By xpath = By.xpath("//button[contains(text(),'Add To Cart')]");
+		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
+		List<WebElement> buttons = fetchComponents.get();
+		
+		//List<WebElement> buttons = driver.findElements(By.xpath("//button[contains(text(),'Add To Cart')]"));
 
-		for(int i=0;i<buttons.size();i++){
-		    buttons.get(i).click();
+		for (WebElement e : buttons) {
+			e.click();
 			System.out.println("Add to cart CLICKED");
-			Thread.sleep(3000);
-		}
-		
-		
-		
+		}	
 	}
 	
-	public void goToCart() throws InterruptedException {
-		Thread.sleep(3000);
-		driver.findElement(By.xpath("//a[@ng-href='#/cart']")).click();
-		Thread.sleep(10000);
+	public void goToCart() {
+		By xpath = By.xpath("//a[@ng-href='#/cart']");
+		WebElement cart = new WebDriverWait(driver, 10)
+				.until(ExpectedConditions.presenceOfElementLocated(xpath));
+		cart.click();
+		//driver.findElement(By.xpath("//a[@ng-href='#/cart']")).click();
+		//Thread.sleep(10000);
 		
 	}
 	
