@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
@@ -12,6 +13,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CoolStorePage {
@@ -34,8 +36,14 @@ public class CoolStorePage {
 }
 	
 	public List<String> getListOfItems() throws InterruptedException {
-		//Thread.sleep(3000);
-		return driver.findElements(By.xpath("//div[@ng-repeat='item in products']"))
+		By xpath = By.xpath("//div[@ng-repeat='item in products']");
+		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
+		List<WebElement> listOfEelements = fetchComponents.get();
+		
+		
+		return listOfEelements
                       .stream()
                       .map(this::getItemAndPrice)
                       .collect(Collectors.toList());
@@ -48,21 +56,14 @@ public class CoolStorePage {
 		//item name
         String title = element.findElement(By.cssSelector(".card-pf-title")).getText().trim();
         //item price
-        String price = element.findElement(By.cssSelector("html body div.ng-scope div.container.container-cards-pf.ng-scope div.row div.col-md-4.item.ng-scope.ng-isolate-scope div.card-pf.card-pf-accented div.card-pf-body div div.row.ng-scope div.col-xs-6 h1.ng-binding")).getText().trim();
+        String price = element.findElement(By.cssSelector("//h1[@class='ng-binding']")).getText().trim();
 
         return title + " - " + price;
     }
 	
 	private String getPrice(WebElement element) {
-        String price = element.findElement(By.cssSelector("html body div.ng-scope div.container.container-cards-pf.ng-scope div.row div.col-md-4.item.ng-scope.ng-isolate-scope div.card-pf.card-pf-accented div.card-pf-body div div.row.ng-scope div.col-xs-6 h1.ng-binding")).getText().trim();
-		/*NumberFormat format = NumberFormat.getCurrencyInstance();
-		Number number = 0;
-		System.out.println("Not converted price" + price);
-		try {
-			number = format.parse(price);
-		} catch (ParseException e) {
-			System.out.println("couldnt convert dollar sign!!!");;
-		}*/
+        String price = element.findElement(By.cssSelector("//h1[@class='ng-binding']")).getText().trim();
+		
 		return price.substring(1);
 	}
 	
