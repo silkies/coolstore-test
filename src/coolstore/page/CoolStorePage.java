@@ -56,13 +56,13 @@ public class CoolStorePage {
 		//item name
         String title = element.findElement(By.cssSelector(".card-pf-title")).getText().trim();
         //item price
-        String price = element.findElement(By.cssSelector("//h1[@class='ng-binding']")).getText().trim();
+        String price = element.findElement(By.xpath("//h1[@class='ng-binding']")).getText().trim();
 
         return title + " - " + price;
     }
 	
 	private String getPrice(WebElement element) {
-        String price = element.findElement(By.cssSelector("//h1[@class='ng-binding']")).getText().trim();
+        String price = element.findElement(By.xpath("//h1[@class='ng-binding']")).getText().trim();
 		
 		return price.substring(1);
 	}
