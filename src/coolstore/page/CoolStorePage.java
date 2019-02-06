@@ -67,6 +67,24 @@ public class CoolStorePage {
 		return price.substring(1);
 	}
 	
+	public Double getAllPrices() {
+		double sum = 0;
+		By xpath = By.xpath("//h1[@class='ng-binding']");
+		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
+		List<WebElement> allPrices = fetchComponents.get();
+		
+		for (WebElement e : allPrices) {
+			String price = e.getText().trim().substring(1);
+			sum += Double.parseDouble(price);
+		}
+		
+		
+		
+		return sum;
+	}
+	
 	
 	public Double sumOfAllPrices() {
 		double sum = 0;
@@ -107,8 +125,6 @@ public class CoolStorePage {
 		WebElement cart = new WebDriverWait(driver, 10)
 				.until(ExpectedConditions.presenceOfElementLocated(xpath));
 		cart.click();
-		//driver.findElement(By.xpath("//a[@ng-href='#/cart']")).click();
-		//Thread.sleep(10000);
 		
 	}
 	
