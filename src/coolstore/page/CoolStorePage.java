@@ -24,7 +24,7 @@ public class CoolStorePage {
 	public CoolStorePage(final WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        this.wait = new WebDriverWait(driver, 5000);
+        this.wait = new WebDriverWait(driver, 10);
         this.action = new Actions(driver);
     }
 	
