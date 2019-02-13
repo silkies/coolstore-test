@@ -70,9 +70,10 @@ public class CoolStorePage {
 	public Double getAllPrices() {
 		double sum = 0;
 		By xpath = By.xpath("//h1[@class='ng-binding']");
+		By cssSelector = By.cssSelector("div.col-xs-6 > h1:first-child");
 		
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
+		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(cssSelector));
 		List<WebElement> allPrices = fetchComponents.get();
 		
 		for (WebElement e : allPrices) {
