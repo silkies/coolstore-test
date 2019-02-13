@@ -31,14 +31,12 @@ public class CoolStorePage {
 	public void goToHomePage() {
         this.driver.get("http://web-ui-coolstore-prod-demo.apps.s-und-n.de");
         System.out.println("Browser launched and navigated to CoolStore page");
-        //Thread.sleep(10000);
-
+        
 }
 	
 	public List<String> getListOfItems() {
 		By xpath = By.xpath("//div[@ng-repeat='item in products']");
 		
-		WebDriverWait wait = new WebDriverWait(driver, 10);
 		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
 		List<WebElement> listOfElements = fetchComponents.get();
 		
@@ -56,23 +54,21 @@ public class CoolStorePage {
 		//item name
         String title = element.findElement(By.cssSelector(".card-pf-title")).getText().trim();
         //item price
-        String price = element.findElement(By.xpath("//h1[@class='ng-binding']")).getText().trim();
+        By priceSelector = By.cssSelector("div.col-xs-6 > h1:first-child");
+        String price = element.findElement(priceSelector).getText().trim();
 
         return title + " - " + price;
     }
 	
-	private String getPrice(WebElement element) {
-        String price = element.findElement(By.xpath("//h1[@class='ng-binding']")).getText().trim();
-		
-		return price.substring(1);
-	}
+	
 	
 	public Double getAllPrices() {
+		
 		double sum = 0;
 		By xpath = By.xpath("//h1[@class='ng-binding']");
 		By cssSelector = By.cssSelector("div.col-xs-6 > h1:first-child");
 		
-		WebDriverWait wait = new WebDriverWait(driver, 10);
+		//WebDriverWait wait = new WebDriverWait(driver, 10);
 		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(cssSelector));
 		List<WebElement> allPrices = fetchComponents.get();
 		
@@ -81,17 +77,23 @@ public class CoolStorePage {
 			sum += Double.parseDouble(price);
 		}
 		
-		
-		
-		return sum;
+		BigDecimal bd = new BigDecimal(Double.toString(sum));
+	    bd = bd.setScale(2, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
 	}
 	
+	
+	private String getPrice(WebElement element) {
+        String price = element.findElement(By.xpath("//h1[@class='ng-binding']")).getText().trim();
+		
+		return price.substring(1);
+	}
 	
 	public Double sumOfAllPrices() {
 		double sum = 0;
 		By xpath = By.xpath("//div[@ng-repeat='item in products']");
 		
-		WebDriverWait wait = new WebDriverWait(driver, 10);
+		//WebDriverWait wait = new WebDriverWait(driver, 10);
 		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
 		List<WebElement> listOfElements = fetchComponents.get();
 		
@@ -109,12 +111,9 @@ public class CoolStorePage {
 	public void addAllItemsToCart() {
 		By xpath = By.xpath("//button[contains(text(),'Add To Cart')]");
 		
-		WebDriverWait wait = new WebDriverWait(driver, 10);
 		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
 		List<WebElement> buttons = fetchComponents.get();
 		
-		//List<WebElement> buttons = driver.findElements(By.xpath("//button[contains(text(),'Add To Cart')]"));
-
 		for (WebElement e : buttons) {
 			e.click();
 			System.out.println("Add to cart CLICKED");
@@ -123,8 +122,7 @@ public class CoolStorePage {
 	
 	public void goToCart() {
 		By xpath = By.xpath("//a[@ng-href='#/cart']");
-		WebElement cart = new WebDriverWait(driver, 10)
-				.until(ExpectedConditions.presenceOfElementLocated(xpath));
+		WebElement cart = wait.until(ExpectedConditions.presenceOfElementLocated(xpath));
 		cart.click();
 		
 	}
