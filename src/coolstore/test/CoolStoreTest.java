@@ -50,7 +50,7 @@ public class CoolStoreTest extends BaseTest{
     public void addToCartTest() throws InterruptedException {
     	store.goToHomePage();
     	System.out.println("Trying to add all elements in the cart...");
-    	Double expected = store.sumOfAllPrices();
+    	Double expected = store.getAllPrices();
     	System.out.println("Expected: " + expected);
     	store.addAllItemsToCart();
     	store.goToCart();
