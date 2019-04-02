@@ -29,7 +29,7 @@ public class CoolStorePage {
     }
 	
 	public void goToHomePage() {
-        this.driver.get("http://web-ui-coolstore-prod-demo.apps.s-und-n.de");
+        this.driver.get("http://web-ui-avogt-coolstore.apps.s-und-n.de");
         System.out.println("Browser launched and navigated to CoolStore page");
         
 }
