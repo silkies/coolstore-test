@@ -31,12 +31,14 @@ public class CoolStorePage {
 	public void goToHomePage() {
         this.driver.get("http://web-ui-avogt-coolstore.apps.s-und-n.de");
         System.out.println("Browser launched and navigated to CoolStore page");
+	Thread.sleep(300);
         
 }
 	
 	public List<String> getListOfItems() {
 		By xpath = By.xpath("//div[@ng-repeat='item in products']");
-		
+		WebElement welement = driver.findElement(By.cssSelector(".card-pf-title"));
+		System.out.println("TEST!!!" + welement.getText());
 		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
 		List<WebElement> listOfElements = fetchComponents.get();
 		
