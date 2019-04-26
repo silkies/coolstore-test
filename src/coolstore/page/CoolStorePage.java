@@ -24,14 +24,14 @@ public class CoolStorePage {
 	public CoolStorePage(final WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        this.wait = new WebDriverWait(driver, 100);
+        this.wait = new WebDriverWait(driver, 10);
         this.action = new Actions(driver);
     }
 	
 	public void goToHomePage() throws InterruptedException {
         this.driver.get("http://web-ui-avogt-coolstore.apps.s-und-n.de");
         System.out.println("Browser launched and navigated to CoolStore page");
-	//Thread.sleep(3000);
+	Thread.sleep(3000);
         
 }
 	
