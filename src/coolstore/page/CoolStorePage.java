@@ -24,21 +24,21 @@ public class CoolStorePage {
 	public CoolStorePage(final WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        this.wait = new WebDriverWait(driver, 10);
+        this.wait = new WebDriverWait(driver, 1000);
         this.action = new Actions(driver);
     }
 	
 	public void goToHomePage() throws InterruptedException {
         this.driver.get("http://web-ui-avogt-coolstore.apps.s-und-n.de");
         System.out.println("Browser launched and navigated to CoolStore page");
-	Thread.sleep(300);
+	Thread.sleep(3000);
         
 }
 	
 	public List<String> getListOfItems() {
 		By xpath = By.xpath("//div[@ng-repeat='item in products']");
-		WebElement welement = driver.findElement(By.cssSelector(".card-pf-title"));
-		System.out.println("TEST!!!" + welement.getText());
+		//WebElement welement = driver.findElement(By.cssSelector(".card-pf-title"));
+		//System.out.println("TEST!!!" + welement.getText());
 		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(xpath));
 		List<WebElement> listOfElements = fetchComponents.get();
 		
