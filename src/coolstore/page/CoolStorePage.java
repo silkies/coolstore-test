@@ -31,7 +31,7 @@ public class CoolStorePage {
 	public void goToHomePage() throws InterruptedException {
         this.driver.get("http://web-ui.avogt-coolstore.svc:8080");
         System.out.println("Browser launched and navigated to CoolStore page");
-	Thread.sleep(3000);
+	//Thread.sleep(3000);
         
 }
 	
