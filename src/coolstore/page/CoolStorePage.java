@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -20,20 +21,31 @@ public class CoolStorePage {
 	private WebDriver driver;
 	private WebDriverWait wait;
 	private Actions action;
+	private Object x;
 
 	public CoolStorePage(final WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        this.wait = new WebDriverWait(driver, 60);
+        this.wait = new WebDriverWait(driver, 100);
         this.action = new Actions(driver);
     }
 	
 	public void goToHomePage() throws InterruptedException {
-        this.driver.get("http://web-ui.avogt-coolstore.svc:8080");
+        this.driver.get("http://web-ui-avogt-coolstore.apps.s-und-n.de");
         System.out.println("Browser launched and navigated to CoolStore page");
-	//Thread.sleep(3000);
+        System.out.println("TITLE: " + driver.getTitle());
+        System.out.println("page loaded: " + waitUntilLoaded());
+
+        //Thread.sleep(3000);
         
-}
+	}
+	
+	private boolean waitUntilLoaded()
+	{
+		boolean loaded =((JavascriptExecutor) this.driver).executeScript("return document.readyState").equals("complete");
+	    //wait.until(ExpectedConditions.jsReturnsValue("return document.readyState"));
+	    return loaded;
+	}
 	
 	public List<String> getListOfItems() {
 		By xpath = By.xpath("//div[@ng-repeat='item in products']");
