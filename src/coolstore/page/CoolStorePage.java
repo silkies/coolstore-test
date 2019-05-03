@@ -42,6 +42,10 @@ public class CoolStorePage {
 	
 	private boolean waitUntilLoaded()
 	{
+		By tag = By.tagName("div ng-view");
+		System.out.println("By tag" + driver.findElements(tag));
+		System.out.println("By class" + driver.findElements(By.className("ng-scope")));
+
 		boolean loaded =((JavascriptExecutor) this.driver).executeScript("return document.readyState").equals("complete");
 	    //wait.until(ExpectedConditions.jsReturnsValue("return document.readyState"));
 	    return loaded;
