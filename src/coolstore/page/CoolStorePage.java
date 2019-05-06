@@ -42,11 +42,8 @@ public class CoolStorePage {
 	
 	private boolean waitUntilLoaded()
 	{
-		System.out.println("By class" + driver.findElements(By.className("ng-scope")).toString());
-
-
 		boolean loaded =((JavascriptExecutor) this.driver).executeScript("return document.readyState").equals("complete");
-	    //wait.until(ExpectedConditions.jsReturnsValue("return document.readyState"));
+		System.out.println("By xpath" + driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div[2]/div/div[2]/div[1]/h1")).getText().toString());
 	    return loaded;
 	}
 	
