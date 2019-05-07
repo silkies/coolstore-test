@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.chrome.*;
+
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -27,6 +29,10 @@ public class BaseTest {
 	        
 	        if(browser.equals("chrome")) {
 	        	DesiredCapabilities dc = DesiredCapabilities.chrome();
+
+	        	final ChromeOptions chromeOptions = new ChromeOptions();
+	        	chromeOptions.addArguments("--headless");
+	        	dc.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 		        driver = new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), dc);
 
 	        }
