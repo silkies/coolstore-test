@@ -1,6 +1,7 @@
 package coolstore.test;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.Assert;
@@ -20,13 +21,14 @@ public class CoolStoreTest extends BaseTest{
     public void setUp(String browser) throws MalformedURLException {
         super.setUp(browser);
         store = new CoolStorePage(driver);
-	System.out.println("Tests on " + browser);
+        System.out.println("Tests on " + browser);
+        store.goToHomePage();
+
 
     }
 
-    @Test
+    @Test (priority=2)
     public void allItemsDisplayedTest() throws InterruptedException {
-        store.goToHomePage();
         System.out.println("Trying to get list of all items...");
         List<String> itemPrice = store.getListOfItems();
         itemPrice.stream()
@@ -36,21 +38,20 @@ public class CoolStoreTest extends BaseTest{
         Assert.assertTrue(itemPrice.size()>0);
     }
     
-    @Test
+    @Test (priority=2)
     public void sumOfPrices() throws InterruptedException {
-    	store.goToHomePage();
     	System.out.println("Trying to calculate sum of items prices...");
-    	double allPrices = store.getAllPrices();
+    	double allPrices = store.getSumOfPrices();
     	System.out.println("Sum of prices: " + allPrices);
         System.out.println("----------------------------");
     	Assert.assertTrue(allPrices >= 0);
     }
     
-    @Test
+    
+    @Test (priority=3)
     public void addToCartTest() throws InterruptedException {
-    	store.goToHomePage();
     	System.out.println("Trying to add all elements in the cart...");
-    	Double expected = store.getAllPrices();
+    	Double expected = store.getSumOfPrices();
     	System.out.println("Expected: " + expected);
     	store.addAllItemsToCart();
     	store.goToCart();
@@ -59,6 +60,13 @@ public class CoolStoreTest extends BaseTest{
     	System.out.println("Actual: " + actual);
     	System.out.println("----------------------------");
     	Assert.assertEquals(actual, expected);    	
+    }
+    
+    @Test (priority=1)
+    public void allItemsTitles() {
+    	System.out.println("Display all titles");
+    	ArrayList<String> titles = store.getAllTitles();
+    	Assert.assertTrue(titles.size() > 0);
     }
     
     
