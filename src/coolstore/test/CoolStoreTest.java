@@ -64,8 +64,17 @@ public class CoolStoreTest extends BaseTest{
     
     @Test (priority=1)
     public void allItemsTitles() {
-    	System.out.println("Display all titles");
+    	System.out.println("Titles by class");
     	ArrayList<String> titles = store.getAllTitles();
+    	System.out.println("----------------------------");
+    	Assert.assertTrue(titles.size() > 0);
+    }
+    
+    @Test (priority=1)
+    public void titlesByTag() {
+    	System.out.println("Titles by tag");
+    	ArrayList<String> titles = store.getTitlesByTag();
+    	System.out.println("----------------------------");
     	Assert.assertTrue(titles.size() > 0);
     }
     
