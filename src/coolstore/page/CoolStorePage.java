@@ -165,6 +165,24 @@ public class CoolStorePage {
 		return listOfTitles;
 		
 	}
+	
+	public ArrayList<String> getTitlesByTag() {
+		ArrayList<String> listOfTitles = new ArrayList<String>(); 
+		By tag = By.tagName("h2");
+		
+		// Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(className));
+		// List<WebElement> titles = fetchComponents.get();
+		List<WebElement> titles = driver.findElements(tag);
+		
+		for (WebElement e : titles) {
+			listOfTitles.add(e.getText().trim());
+			System.out.println(e.getText().trim());
+		
+		}
+		
+		return listOfTitles;
+		
+	}
 
 
 }
