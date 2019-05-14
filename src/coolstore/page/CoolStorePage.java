@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -21,7 +22,6 @@ public class CoolStorePage {
 	private WebDriver driver;
 	private WebDriverWait wait;
 	private Actions action;
-	private Object x;
 
 	public CoolStorePage(final WebDriver driver) {
         this.driver = driver;
@@ -30,7 +30,7 @@ public class CoolStorePage {
         this.action = new Actions(driver);
     }
 	
-	public void goToHomePage() throws InterruptedException {
+	public void goToHomePage() {
         this.driver.get("http://web-ui.avogt-coolstore.svc:8080");
         System.out.println("Browser launched and navigated to CoolStore page");
         System.out.println("TITLE: " + driver.getTitle());
@@ -40,10 +40,9 @@ public class CoolStorePage {
         
 	}
 	
-	private boolean waitUntilLoaded()
-	{
+	private boolean waitUntilLoaded() {
 		boolean loaded =((JavascriptExecutor) this.driver).executeScript("return document.readyState").equals("complete");
-		System.out.println("By xpath" + driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div[2]/div/div[2]/div[1]/h1")).getText().toString());
+		//System.out.println("By xpath" + driver.findElement(By.xpath("/html/body/div/div/div/div[1]/div/div[2]/div/div[2]/div[1]/h1")).getText().toString());
 	    return loaded;
 	}
 	
@@ -76,7 +75,7 @@ public class CoolStorePage {
 	
 	
 	
-	public Double getAllPrices() {
+	public Double getSumOfPrices() {
 		
 		double sum = 0;
 		By xpath = By.xpath("//h1[@class='ng-binding']");
@@ -146,6 +145,23 @@ public class CoolStorePage {
 		String cartTotal = driver.findElement(By.xpath("//h3[contains(text(), 'Cart Total')]")).getText().trim();
 		amount = Double.parseDouble(cartTotal.substring(cartTotal.lastIndexOf("$") + 1));
 		return amount;
+		
+	}
+	
+	public ArrayList<String> getAllTitles() {
+		ArrayList<String> listOfTitles = new ArrayList<String>(); 
+		By className = By.className("card-pf-title");
+		
+		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(className));
+		List<WebElement> titles = fetchComponents.get();
+		
+		for (WebElement e : titles) {
+			listOfTitles.add(e.getText().trim());
+			System.out.println(e.getText().trim());
+		
+		}
+		
+		return listOfTitles;
 		
 	}
 
