@@ -170,9 +170,9 @@ public class CoolStorePage {
 		ArrayList<String> listOfTitles = new ArrayList<String>(); 
 		By tag = By.tagName("h2");
 		
-		// Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(className));
-		// List<WebElement> titles = fetchComponents.get();
-		List<WebElement> titles = driver.findElements(tag);
+		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(tag));
+		List<WebElement> titles = fetchComponents.get();
+		// List<WebElement> titles = driver.findElements(tag);
 		
 		for (WebElement e : titles) {
 			listOfTitles.add(e.getText().trim());
