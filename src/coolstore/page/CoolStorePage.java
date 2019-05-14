@@ -152,8 +152,9 @@ public class CoolStorePage {
 		ArrayList<String> listOfTitles = new ArrayList<String>(); 
 		By className = By.className("card-pf-title");
 		
-		Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(className));
-		List<WebElement> titles = fetchComponents.get();
+		// Supplier<List<WebElement>> fetchComponents = () -> wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(className));
+		// List<WebElement> titles = fetchComponents.get();
+		List<WebElement> titles = driver.findElements(className);
 		
 		for (WebElement e : titles) {
 			listOfTitles.add(e.getText().trim());
